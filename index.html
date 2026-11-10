@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0e26">
+  <meta name="description" content="Portal Pembelajaran Teorema Lingkaran dan Juring Lingkaran Kelas XI SMA/MA. Akses Bahan Ajar Interaktif, Juring Adventure Quest, dan Ekspedisi RPG 2D.">
+  <title>Teorema Lingkaran | Portal Pembelajaran & Juring Adventure</title>
+  <style>
+    :root {
+      --bg: #0b0c24;
+      --bg-alt: #131438;
+      --panel: #1a1b46;
+      --panel-hover: #222358;
+      --panel-card: linear-gradient(145deg, #1f204ecc, #141539ee);
+      --border: rgba(186, 175, 255, 0.18);
+      --border-glow: rgba(142, 120, 255, 0.45);
+      --text: #f7f6ff;
+      --text-muted: #b4b1db;
+      --accent-gold: #ffd666;
+      --accent-cyan: #5ef3ff;
+      --accent-purple: #9d7aff;
+      --accent-pink: #ff7ebb;
+      --accent-green: #7bf8be;
+      --shadow-lg: 0 25px 60px rgba(4, 5, 22, 0.65);
+      --shadow-neon: 0 0 30px rgba(123, 107, 255, 0.25);
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 26px;
+      --font-main: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 15% 12%, rgba(118, 64, 235, 0.28) 0%, transparent 35%),
+        radial-gradient(circle at 85% 25%, rgba(45, 126, 240, 0.22) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(255, 110, 199, 0.15) 0%, transparent 45%),
+        linear-gradient(180deg, #0b0c24 0%, #101235 50%, #090a1f 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Ambient star grid */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 44px 44px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    /* Utility container */
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 clamp(16px, 3.5vw, 36px);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 13, 38, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background 0.3s ease;
+    }
+
+    .topbar-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 19px;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: conic-gradient(from 210deg, #ffd768, #ff7ebb, #8972ff, #5ef3ff, #ffd768);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 4px 18px rgba(137, 114, 255, 0.45);
+      transform: rotate(-6deg);
+      transition: transform 0.3s ease;
+    }
+
+    .brand:hover .brand-logo {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .brand-meta small {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 1.8px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-link.highlight {
+      background: linear-gradient(135deg, rgba(157, 122, 255, 0.25), rgba(94, 243, 255, 0.2));
+      border: 1px solid var(--border-glow);
+      color: #fff;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* BADGES & CHIPS */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+    }
+
+    .pill-accent {
+      background: rgba(157, 122, 255, 0.18);
+      border-color: rgba(157, 122, 255, 0.45);
+      color: #edd9ff;
+    }
+
+    .pill-cyan {
+      background: rgba(94, 243, 255, 0.14);
+      border-color: rgba(94, 243, 255, 0.4);
+      color: #a4f8ff;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      padding: clamp(38px, 6vw, 75px) 0 clamp(40px, 7vw, 70px);
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .hero-text {
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 15px;
+      border-radius: 30px;
+      background: linear-gradient(90deg, rgba(255, 214, 102, 0.15), rgba(157, 122, 255, 0.15));
+      border: 1px solid rgba(255, 214, 102, 0.35);
+      color: var(--accent-gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 5.2vw, 68px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(110deg, #ffd666 0%, #ff8ec2 45%, #69f4ff 90%);
+      -webkit-background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .hero-desc {
+      font-size: clamp(15px, 1.6vw, 18px);
+      color: var(--text-muted);
+      line-height: 1.75;
+      max-width: 580px;
+      margin-bottom: 30px;
+    }
+
+    /* DIRECT REDIRECT HERO BUTTONS */
+    .hero-cta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      max-width: 620px;
+      margin-bottom: 32px;
+    }
+
+    .btn-redirect {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      border: 1px solid transparent;
+      overflow: hidden;
+    }
+
+    .btn-redirect::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .btn-redirect:hover {
+      transform: translateY(-4px);
+      filter: brightness(1.08);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    .btn-redirect:active {
+      transform: translateY(1px);
+    }
+
+    .btn-redirect .btn-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .btn-redirect .btn-icon {
+      font-size: 24px;
+    }
+
+    .btn-redirect .btn-arrow {
+      font-size: 16px;
+      opacity: 0.75;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-redirect:hover .btn-arrow {
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    .btn-redirect .btn-label {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+
+    .btn-redirect .btn-sub {
+      font-size: 11px;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+
+    /* Colors for direct buttons */
+    .btn-redirect.btn-modul {
+      background: linear-gradient(135deg, #2a8169, #1b534d);
+      border-color: rgba(123, 248, 190, 0.45);
+      color: #ffffff;
+    }
+
+    .btn-redirect.btn-quest {
+      background: linear-gradient(135deg, #744fd8, #42299b);
+      border-color: rgba(187, 154, 255, 0.45);
+      color: #ffffff;
+    }
+
+    .btn-redirect.btn-rpg {
+      background: linear-gradient(135deg, #c34185, #771f65);
+      border-color: rgba(255, 142, 194, 0.45);
+      color: #ffffff;
+    }
+
+    /* Hero Stats Bar */
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      padding-top: 10px;
+    }
+
+    .stat-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stat-number {
+      font-size: 26px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .stat-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.25;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* HERO INTERACTIVE VISUALIZER */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 440px;
+    }
+
+    .visual-card {
+      width: 100%;
+      max-width: 440px;
+      background: radial-gradient(circle at 50% 20%, rgba(93, 76, 184, 0.4), rgba(20, 22, 59, 0.95));
+      border: 1px solid rgba(171, 154, 255, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(7, 8, 28, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+    }
+
+    .visual-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .visual-header h3 {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--accent-green);
+      background: rgba(123, 248, 190, 0.15);
+      border: 1px solid rgba(123, 248, 190, 0.35);
+      padding: 3px 8px;
+      border-radius: 20px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    .circle-stage {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 16px;
+    }
+
+    .circle-stage svg {
+      width: 100%;
+      max-width: 270px;
+      height: auto;
+      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.4));
+    }
+
+    .visual-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(10, 11, 33, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .slider-val {
+      color: var(--accent-cyan);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .custom-range {
+      width: 100%;
+      height: 6px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      -webkit-appearance: none;
+      accent-color: var(--accent-gold);
+      cursor: pointer;
+    }
+
+    .visual-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .metric-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    .metric-pill small {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .metric-pill strong {
+      font-size: 14px;
+      color: var(--accent-gold);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* SECTION STYLES */
+    .section-wrap {
+      padding: 60px 0;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 45px;
+    }
+
+    .section-tag {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* SHOWCASE HUB (THE 3 APPS) */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .portal-card {
+      background: var(--panel-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .portal-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--card-color);
+      box-shadow: 0 0 15px var(--card-color);
+    }
+
+    .portal-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--card-glow);
+      box-shadow: 0 28px 70px rgba(4, 5, 24, 0.8), 0 0 25px var(--card-glow);
+    }
+
+    .card-modul {
+      --card-color: #5ef3ff;
+      --card-glow: rgba(94, 243, 255, 0.45);
+    }
+
+    .card-quest {
+      --card-color: #ffd666;
+      --card-glow: rgba(255, 214, 102, 0.45);
+    }
+
+    .card-rpg {
+      --card-color: #ff7ebb;
+      --card-glow: rgba(255, 126, 187, 0.45);
+    }
+
+    .portal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--card-color);
+      margin-bottom: 16px;
+    }
+
+    .portal-icon-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: grid;
+      place-items: center;
+      font-size: 32px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .portal-card:hover .portal-icon-box {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .portal-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+
+    .portal-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 22px;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-bottom: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: #dedcf5;
+    }
+
+    .feature-list li span.check {
+      color: var(--card-color);
+      font-weight: 900;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .portal-btn {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      transition: all 0.2s ease;
+      color: #121334;
+      background: var(--card-color);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .portal-btn:hover {
+      filter: brightness(1.12);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .file-ref {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 10px;
+      font-family: monospace;
+      opacity: 0.7;
+    }
+
+    /* THEOREM EXPLORER SECTION */
+    .theorem-container {
+      background: var(--panel-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: clamp(20px, 3.5vw, 40px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .theorem-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 28px;
+      scrollbar-width: none;
+    }
+
+    .theorem-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(157, 122, 255, 0.35), rgba(94, 243, 255, 0.25));
+      border-color: var(--accent-cyan);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(94, 243, 255, 0.2);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .theorem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .theorem-info h4 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .theorem-info p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .theorem-formula-box {
+      background: linear-gradient(135deg, rgba(39, 34, 94, 0.6), rgba(18, 20, 56, 0.8));
+      border: 1px solid rgba(162, 137, 255, 0.35);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin: 18px 0;
+    }
+
+    .theorem-formula-box .formula-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 6px;
+    }
+
+    .theorem-formula-box .formula-text {
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 900;
+      color: #fff;
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      letter-spacing: 0.5px;
+    }
+
+    .theorem-formula-box small {
+      display: block;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .theorem-visual {
+      background: rgba(12, 14, 38, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 310px;
+    }
+
+    .theorem-visual svg {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+    }
+
+    .theorem-visual .caption {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* FORMULA COMPARISON TABLE */
+    .formula-table-wrap {
+      overflow-x: auto;
+      margin-top: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      background: rgba(13, 15, 41, 0.6);
+    }
+
+    .formula-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      min-width: 650px;
+    }
+
+    .formula-table th {
+      background: rgba(157, 122, 255, 0.15);
+      color: #fff;
+      text-align: left;
+      padding: 14px 18px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .formula-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      vertical-align: middle;
+    }
+
+    .formula-table tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .formula-table td.math {
+      font-family: 'Cambria Math', serif;
+      font-weight: 700;
+      color: var(--accent-gold);
+      font-size: 16px;
+    }
+
+    /* LEARNING ROADMAP */
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      position: relative;
+    }
+
+    .roadmap-card {
+      background: var(--panel-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      position: relative;
+    }
+
+    .roadmap-step {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 15px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(157, 122, 255, 0.35);
+    }
+
+    .roadmap-card h4 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .roadmap-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .roadmap-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+    }
+
+    .roadmap-action:hover {
+      text-decoration: underline;
+    }
+
+    /* FOOTER */
+    .footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #090a1f;
+      padding: 50px 0 35px;
+      margin-top: 60px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand p {
+      margin-top: 12px;
+      max-width: 380px;
+      line-height: 1.65;
+    }
+
+    .footer-col h5 {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* FLOATING BOTTOM BAR FOR MOBILE */
+    .floating-bar {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 90;
+      background: rgba(17, 19, 52, 0.92);
+      border: 1px solid rgba(162, 137, 255, 0.4);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(157, 122, 255, 0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 50px;
+      padding: 6px 10px;
+      display: none;
+      gap: 6px;
+    }
+
+    .floating-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .floating-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .floating-btn.active {
+      background: linear-gradient(135deg, #744fd8, #ff7ebb);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-desc {
+        margin: 0 auto 30px;
+      }
+      .hero-cta-grid {
+        margin: 0 auto 32px;
+      }
+      .hero-stats {
+        justify-content: center;
+      }
+      .portal-grid {
+        grid-template-columns: 1fr;
+        max-width: 580px;
+        margin: 0 auto;
+      }
+      .theorem-grid {
+        grid-template-columns: 1fr;
+      }
+      .roadmap-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .floating-bar {
+        display: flex;
+      }
+      .hero-title {
+        font-size: 38px;
+      }
+      .hero-cta-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="container topbar-content">
+      <a href="index.html" class="brand" aria-label="Beranda Portal Teorema Lingkaran">
+        <div class="brand-logo">📐</div>
+        <div class="brand-meta">
+          <span>PORTAL TEOREMA LINGKARAN</span>
+          <small>MATEMATIKA KELAS XI SMA/MA</small>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigasi Utama">
+        <a href="#modul" class="nav-link">3 Modul Aplikasi</a>
+        <a href="#teorema" class="nav-link">Teorema & Konsep</a>
+        <a href="#simulator" class="nav-link">Simulasi Cepat</a>
+        <a href="#alur" class="nav-link">Alur Belajar</a>
+      </nav>
+
+      <div class="topbar-actions">
+        <span class="pill pill-cyan">⚡ 100% Offline</span>
+        <a href="bahan-ajar.html" class="pill pill-accent" style="text-decoration:none">📖 Bahan Ajar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main>
+    <!-- HERO SECTION -->
+    <section class="container hero" id="beranda">
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <span>✨ Modul Interaktif Kurikulum Merdeka</span>
+        </div>
+        <h1 class="hero-title">
+          Kuasai Teorema <br>
+          <span class="gradient-text">Lingkaran & Juring</span>
+        </h1>
+        <p class="hero-desc">
+          Pusat pembelajaran komprehensif geometri lingkaran. Pelajari materi terstruktur, mainkan kuis berhadiah sertifikat, dan selesaikan misi petualangan fantasi 2D untuk menguasai luas juring serta sudut lingkaran.
+        </p>
+
+        <!-- 3 REDIRECT CTA BUTTONS -->
+        <div class="hero-cta-grid">
+          <a href="bahan-ajar.html" class="btn-redirect btn-modul" title="Buka Bahan Ajar Lengkap">
+            <div class="btn-top">
+              <span class="btn-icon">📘</span>
+              <span class="btn-arrow">→</span>
+            </div>
+            <span class="btn-label">Bahan Ajar</span>
+            <span class="btn-sub">Materi, Rumus, & Latihan</span>
+          </a>
+
+          <a href="JURING_ADVENTURE.html" class="btn-redirect btn-quest" title="Mainkan Juring Adventure Math Quest">
+            <div class="btn-top">
+              <span class="btn-icon">🎮</span>
+              <span class="btn-arrow">→</span>
+            </div>
+            <span class="btn-label">Math Quest</span>
+            <span class="btn-sub">20 Soal & E-Sertifikat</span>
+          </a>
+
+          <a href="JURING_ADVENTURE_EKSPEDISI.html" class="btn-redirect btn-rpg" title="Mulai Petualangan Ekspedisi 2D">
+            <div class="btn-top">
+              <span class="btn-icon">🚀</span>
+              <span class="btn-arrow">→</span>
+            </div>
+            <span class="btn-label">Ekspedisi RPG</span>
+            <span class="btn-sub">Canvas 2D & Boss Battle</span>
+          </a>
+        </div>
+
+        <!-- STATS -->
+        <div class="hero-stats">
+          <div class="stat-box">
+            <span class="stat-number">5</span>
+            <span class="stat-desc">Bab Tematik<br>Wilayah</span>
+          </div>
+          <div style="width: 1px; height: 30px; background: rgba(255,255,255,0.15)"></div>
+          <div class="stat-box">
+            <span class="stat-number">20+</span>
+            <span class="stat-desc">Tantangan<br>& Kuis</span>
+          </div>
+          <div style="width: 1px; height: 30px; background: rgba(255,255,255,0.15)"></div>
+          <div class="stat-box">
+            <span class="stat-number">3</span>
+            <span class="stat-desc">Aplikasi Web<br>Siap Pakai</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- HERO VISUALIZER INTERACTIVE -->
+      <div class="hero-visual">
+        <div class="visual-card">
+          <div class="visual-header">
+            <h3><span>🔮</span> Simulator Sudut Cepat</h3>
+            <span class="live-badge"><span class="live-dot"></span> Interaktif</span>
+          </div>
+
+          <div class="circle-stage">
+            <svg viewBox="0 0 260 260" id="heroSvgCircle" aria-label="Diagram Lingkaran Teorema Sudut">
+              <defs>
+                <linearGradient id="heroSectorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffd666" stop-opacity="0.85"/>
+                  <stop offset="100%" stop-color="#ff7ebb" stop-opacity="0.85"/>
+                </linearGradient>
+              </defs>
+              <!-- Lingkaran Luar -->
+              <circle cx="130" cy="130" r="100" fill="rgba(33, 37, 94, 0.4)" stroke="#675dd1" stroke-width="2.5" stroke-dasharray="4 4" />
+              <!-- Sektor Juring -->
+              <path id="heroSectorPath" d="M130 130 L130 30 A100 100 0 0 1 230 130 Z" fill="url(#heroSectorGrad)" stroke="#ffd666" stroke-width="2" />
+              <!-- Jari-jari -->
+              <line id="heroRadius1" x1="130" y1="130" x2="130" y2="30" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+              <line id="heroRadius2" x1="130" y1="130" x2="230" y2="130" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+              <!-- Titik Pusat -->
+              <circle cx="130" cy="130" r="5" fill="#ffffff" stroke="#251a5c" stroke-width="2"/>
+              <!-- Label -->
+              <text x="135" y="145" fill="#ffffff" font-size="12" font-weight="bold">O</text>
+              <text x="135" y="24" fill="#5ef3ff" font-size="11" font-weight="bold">A</text>
+              <text id="heroLabelB" x="238" y="135" fill="#5ef3ff" font-size="11" font-weight="bold">B</text>
+              <text id="heroAngleLabel" x="150" y="105" fill="#ffffff" font-size="13" font-weight="bold">90°</text>
+            </svg>
+          </div>
+
+          <div class="visual-controls">
+            <div class="slider-row">
+              <span>Sudut Pusat (&alpha;)</span>
+              <span class="slider-val" id="heroAngleVal">90°</span>
+            </div>
+            <input type="range" id="heroAngleSlider" min="10" max="360" step="5" value="90" class="custom-range" aria-label="Atur Sudut Pusat">
+
+            <div class="slider-row">
+              <span>Jari-jari (r)</span>
+              <span class="slider-val" id="heroRadiusVal">14 cm</span>
+            </div>
+            <input type="range" id="heroRadiusSlider" min="5" max="30" step="1" value="14" class="custom-range" aria-label="Atur Jari-jari">
+          </div>
+
+          <div class="visual-metrics">
+            <div class="metric-pill">
+              <small>Panjang Busur</small>
+              <strong id="heroArcLen">22.0 cm</strong>
+            </div>
+            <div class="metric-pill">
+              <small>Luas Juring</small>
+              <strong id="heroSectorArea">154.0 cm²</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: 3 REDIRECT SHOWCASE CARDS -->
+    <section class="section-wrap" id="modul">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Jelajahi Ekosistem Pembelajaran</span>
+          <h2 class="section-title">Pilih Mode Belajar Sesuai Kebutuhanmu</h2>
+          <p class="section-desc">
+            Tersedia 3 halaman aplikasi mandiri dengan fokus berbeda: buku belajar interaktif dengan kalkulator, game kuis berperingkat, atau petualangan RPG 2D.
+          </p>
+        </div>
+
+        <div class="portal-grid">
+          <!-- CARD 1: BAHAN AJAR -->
+          <article class="portal-card card-modul">
+            <div class="portal-badge">📖 Modul Pembelajaran Lengkap</div>
+            <div class="portal-icon-box">📘</div>
+            <h3>Bahan Ajar Interaktif</h3>
+            <p>
+              Modul teori dan konsep terstruktur untuk memahami unsur lingkaran, sudut pusat, panjang busur, serta penurunan rumus luas juring step-by-step.
+            </p>
+            <ul class="feature-list">
+              <li><span class="check">✓</span> 5 Bab Materi: Hutan Lingkaran s.d. Kastil Juring</li>
+              <li><span class="check">✓</span> Simulator Sektor & Diagram SVG Dinamis</li>
+              <li><span class="check">✓</span> 12 Soal Evaluasi Mandiri Terarah</li>
+              <li><span class="check">✓</span> Mode Ramah Cetak (Printable PDF ready)</li>
+            </ul>
+            <a href="bahan-ajar.html" class="portal-btn">
+              Buka Bahan Ajar <span>→</span>
+            </a>
+            <div class="file-ref">File: bahan-ajar.html</div>
+          </article>
+
+          <!-- CARD 2: JURING ADVENTURE QUEST -->
+          <article class="portal-card card-quest">
+            <div class="portal-badge">🏆 Game Kuis & Tantangan</div>
+            <div class="portal-icon-box">🎮</div>
+            <h3>Juring Adventure: Quest</h3>
+            <p>
+              Tantangan kuis 5 level dengan 20 soal variatif. Geser sudut, selesaikan soal berwaktu, kumpulkan skor, cetak sertifikat, dan masuki leaderboard!
+            </p>
+            <ul class="feature-list">
+              <li><span class="check">✓</span> 20 Soal Tantangan (Pilihan Ganda & Isian)</li>
+              <li><span class="check">✓</span> Efek Suara Web Audio & Partikel Konfeti</li>
+              <li><span class="check">✓</span> Papan Peringkat (Leaderboard) Lokal</li>
+              <li><span class="check">✓</span> Sertifikat Prestasi Digital Resmi</li>
+            </ul>
+            <a href="JURING_ADVENTURE.html" class="portal-btn">
+              Mainkan Math Quest <span>→</span>
+            </a>
+            <div class="file-ref">File: JURING_ADVENTURE.html</div>
+          </article>
+
+          <!-- CARD 3: EKSPEDISI RPG 2D -->
+          <article class="portal-card card-rpg">
+            <div class="portal-badge">🚀 Petualangan RPG Canvas 2D</div>
+            <div class="portal-icon-box">🏰</div>
+            <h3>Ekspedisi Negeri Juring</h3>
+            <p>
+              Jelajahi peta dunia 2D di atas pulau terapung. Kendalikan karakter, temui NPC penjaga wilayah, kumpulkan kristal, dan kalahkan Boss Formula.
+            </p>
+            <ul class="feature-list">
+              <li><span class="check">✓</span> Eksplorasi Canvas 2D & Kontrol Karakter</li>
+              <li><span class="check">✓</span> 3 Karakter Unik: Nova, Lyra, dan Bimo</li>
+              <li><span class="check">✓</span> Minigame Memecahkan Teka-Teki Sudut</li>
+              <li><span class="check">✓</span> Boss Battle Kristal Penutup Petualangan</li>
+            </ul>
+            <a href="JURING_ADVENTURE_EKSPEDISI.html" class="portal-btn">
+              Mulai Ekspedisi 2D <span>→</span>
+            </a>
+            <div class="file-ref">File: JURING_ADVENTURE_EKSPEDISI.html</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: TEOREMA & KONSEP LINGKARAN HUB -->
+    <section class="section-wrap" id="teorema">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Ringkasan Konseptual</span>
+          <h2 class="section-title">Teorema Inti Geometri Lingkaran</h2>
+          <p class="section-desc">
+            Kumpulan definisi, rumus matematis, dan teorema penting geometri lingkaran kelas XI SMA/MA untuk referensi cepat sebelum memulai latihan.
+          </p>
+        </div>
+
+        <div class="theorem-container">
+          <!-- TABS -->
+          <div class="theorem-tabs" role="tablist">
+            <button class="tab-btn active" data-tab="tab-unsur">Unsur Lingkaran</button>
+            <button class="tab-btn" data-tab="tab-sudut">Teorema Sudut</button>
+            <button class="tab-btn" data-tab="tab-juring">Luas Juring & Busur</button>
+            <button class="tab-btn" data-tab="tab-segiempat">Segi Empat Tali Busur</button>
+            <button class="tab-btn" data-tab="tab-singgung">Garis Singgung</button>
+          </div>
+
+          <!-- TAB 1: UNSUR LINGKARAN -->
+          <div class="tab-content active" id="tab-unsur">
+            <div class="theorem-grid">
+              <div class="theorem-info">
+                <h4>8 Unsur Utama Bangun Lingkaran</h4>
+                <p>
+                  Lingkaran adalah himpunan semua titik pada bidang datar yang berjarak sama (jari-jari) terhadap suatu titik tertentu (titik pusat).
+                </p>
+                <ul class="feature-list">
+                  <li><span class="check">1.</span> <strong>Titik Pusat (O):</strong> Titik tengah lingkaran.</li>
+                  <li><span class="check">2.</span> <strong>Jari-jari (r):</strong> Ruas garis dari pusat ke keliling lingkaran.</li>
+                  <li><span class="check">3.</span> <strong>Diameter (d):</strong> Garis lurus melalui pusat menghubungkan dua titik lingkaran (<span style="color:var(--accent-gold)">d = 2r</span>).</li>
+                  <li><span class="check">4.</span> <strong>Busur:</strong> Garis lengkung bagian dari keliling lingkaran.</li>
+                  <li><span class="check">5.</span> <strong>Tali Busur:</strong> Garis lurus yang menghubungkan dua titik pada lingkaran tanpa harus lewat pusat.</li>
+                  <li><span class="check">6.</span> <strong>Juring (Sektor):</strong> Daerah yang dibatasi oleh dua jari-jari dan satu busur.</li>
+                  <li><span class="check">7.</span> <strong>Tembereng:</strong> Daerah yang dibatasi oleh busur dan tali busurnya.</li>
+                  <li><span class="check">8.</span> <strong>Apotema:</strong> Garis tegak lurus dari titik pusat ke tali busur.</li>
+                </ul>
+              </div>
+              <div class="theorem-visual">
+                <svg viewBox="0 0 300 280">
+                  <circle cx="150" cy="140" r="100" fill="none" stroke="#776cde" stroke-width="3" />
+                  <!-- Juring AOC -->
+                  <path d="M150 140 L150 40 A100 100 0 0 1 240 180 Z" fill="rgba(255, 126, 187, 0.35)" stroke="#ff7ebb" stroke-width="2"/>
+                  <!-- Tembereng -->
+                  <path d="M60 190 A100 100 0 0 0 150 240 Z" fill="rgba(94, 243, 255, 0.35)" stroke="#5ef3ff" stroke-width="2"/>
+                  <line x1="60" y1="190" x2="150" y2="240" stroke="#ffd666" stroke-width="2"/>
+                  <!-- Diameter -->
+                  <line x1="50" y1="140" x2="250" y2="140" stroke="#a493ff" stroke-width="2" stroke-dasharray="5 5"/>
+                  <!-- Jari-jari -->
+                  <line x1="150" y1="140" x2="150" y2="40" stroke="#fff" stroke-width="3"/>
+                  <line x1="150" y1="140" x2="240" y2="180" stroke="#fff" stroke-width="3"/>
+                  <circle cx="150" cy="140" r="5" fill="#fff"/>
+                  <text x="140" y="155" fill="#fff" font-size="12" font-weight="bold">O</text>
+                  <text x="145" y="32" fill="#fff" font-size="12" font-weight="bold">A</text>
+                  <text x="245" y="190" fill="#fff" font-size="12" font-weight="bold">C</text>
+                  <text x="180" y="110" fill="#ff7ebb" font-size="12" font-weight="bold">Juring</text>
+                  <text x="85" y="225" fill="#5ef3ff" font-size="11" font-weight="bold">Tembereng</text>
+                </svg>
+                <span class="caption">Visualisasi Unsur: Juring (merah muda) & Tembereng (biru toska)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: TEOREMA SUDUT -->
+          <div class="tab-content" id="tab-sudut">
+            <div class="theorem-grid">
+              <div class="theorem-info">
+                <h4>Hubungan Sudut Pusat & Sudut Keliling</h4>
+                <p>
+                  Jika sudut pusat dan sudut keliling menghadap busur yang sama, maka besar sudut pusat sama dengan dua kali besar sudut keliling.
+                </p>
+                <div class="theorem-formula-box">
+                  <div class="formula-title">Teorema Sudut Utama</div>
+                  <div class="formula-text">&angle;Pusat = 2 &times; &angle;Keliling</div>
+                  <small>atau &angle;Keliling = &frac12; &times; &angle;Pusat (menghadap busur yang sama)</small>
+                </div>
+                <ul class="feature-list">
+                  <li><span class="check">✦</span> <strong>Sifat 1:</strong> Sudut-sudut keliling yang menghadap busur yang sama adalah <em>sama besar</em>.</li>
+                  <li><span class="check">✦</span> <strong>Sifat 2:</strong> Sudut keliling yang menghadap diameter lingkaran selalu bernilai <strong>90&deg; (siku-siku)</strong>.</li>
+                </ul>
+              </div>
+              <div class="theorem-visual">
+                <svg viewBox="0 0 300 280">
+                  <circle cx="150" cy="140" r="100" fill="none" stroke="#6f62d1" stroke-width="2.5" />
+                  <!-- Busur AB di bawah -->
+                  <path d="M79 211 A100 100 0 0 0 221 211" fill="none" stroke="#ffd666" stroke-width="6" stroke-linecap="round"/>
+                  <!-- Titik Pusat O -->
+                  <circle cx="150" cy="140" r="4" fill="#fff"/>
+                  <!-- Garis Sudut Pusat AOB -->
+                  <line x1="150" y1="140" x2="79" y2="211" stroke="#5ef3ff" stroke-width="2.5"/>
+                  <line x1="150" y1="140" x2="221" y2="211" stroke="#5ef3ff" stroke-width="2.5"/>
+                  <!-- Titik Keliling C di atas -->
+                  <circle cx="150" cy="40" r="4" fill="#ff7ebb"/>
+                  <line x1="150" y1="40" x2="79" y2="211" stroke="#ff7ebb" stroke-width="2" stroke-dasharray="4 4"/>
+                  <line x1="150" y1="40" x2="221" y2="211" stroke="#ff7ebb" stroke-width="2" stroke-dasharray="4 4"/>
+                  <!-- Labels -->
+                  <text x="142" y="132" fill="#fff" font-size="12" font-weight="bold">O</text>
+                  <text x="65" y="225" fill="#ffd666" font-size="12" font-weight="bold">A</text>
+                  <text x="228" y="225" fill="#ffd666" font-size="12" font-weight="bold">B</text>
+                  <text x="145" y="30" fill="#ff7ebb" font-size="12" font-weight="bold">C</text>
+                  <text x="135" y="175" fill="#5ef3ff" font-size="12" font-weight="bold">2&alpha;</text>
+                  <text x="144" y="65" fill="#ff7ebb" font-size="12" font-weight="bold">&alpha;</text>
+                </svg>
+                <span class="caption">&angle;AOB (pusat) = 2 &times; &angle;ACB (keliling) menghadap busur AB</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: LUAS JURING & BUSUR -->
+          <div class="tab-content" id="tab-juring">
+            <div class="theorem-grid">
+              <div class="theorem-info">
+                <h4>Proporsi Busur & Luas Juring</h4>
+                <p>
+                  Perbandingan sudut pusat terhadap satu putaran penuh (360&deg;) sebanding langsung dengan perbandingan panjang busur terhadap keliling dan luas juring terhadap luas lingkaran.
+                </p>
+                <div class="theorem-formula-box">
+                  <div class="formula-title">Rumus Luas Juring & Panjang Busur</div>
+                  <div class="formula-text">L_juring = (&alpha; / 360&deg;) &times; &pi;r&sup2;</div>
+                  <div class="formula-text" style="font-size:22px; margin-top:8px">Panjang Busur = (&alpha; / 360&deg;) &times; 2&pi;r</div>
+                </div>
+                <p>
+                  <strong>Perbandingan Senilai:</strong><br>
+                  <span style="color:var(--accent-cyan); font-family:serif; font-size:16px;">
+                    &alpha; / &beta; = Busur 1 / Busur 2 = Luas Juring 1 / Luas Juring 2
+                  </span>
+                </p>
+              </div>
+              <div class="theorem-visual">
+                <svg viewBox="0 0 300 280">
+                  <circle cx="150" cy="140" r="95" fill="rgba(30,33,80,0.5)" stroke="#5a52ba" stroke-width="2"/>
+                  <path d="M150 140 L150 45 A95 95 0 0 1 232 187 Z" fill="rgba(255, 214, 102, 0.35)" stroke="#ffd666" stroke-width="2.5"/>
+                  <path d="M150 45 A95 95 0 0 1 232 187" fill="none" stroke="#5ef3ff" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="150" y1="140" x2="150" y2="45" stroke="#fff" stroke-width="2.5"/>
+                  <line x1="150" y1="140" x2="232" y2="187" stroke="#fff" stroke-width="2.5"/>
+                  <circle cx="150" cy="140" r="4" fill="#fff"/>
+                  <text x="175" y="125" fill="#ffd666" font-size="13" font-weight="bold">Luas Juring</text>
+                  <text x="215" y="100" fill="#5ef3ff" font-size="12" font-weight="bold">Busur (s)</text>
+                  <text x="156" y="95" fill="#fff" font-size="11">r</text>
+                </svg>
+                <span class="caption">Sektor dibatasi oleh dua jari-jari (r) dan busur lingkaran (s)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: SEGI EMPAT TALI BUSUR -->
+          <div class="tab-content" id="tab-segiempat">
+            <div class="theorem-grid">
+              <div class="theorem-info">
+                <h4>Teorema Segi Empat Tali Busur (Cyclic Quadrilateral)</h4>
+                <p>
+                  Segi empat tali busur adalah bangun segi empat yang keempat titik sudutnya terletak tepat pada keliling lingkaran.
+                </p>
+                <div class="theorem-formula-box">
+                  <div class="formula-title">Teorema Sudut Berhadapan</div>
+                  <div class="formula-text">&angle;A + &angle;C = 180&deg;</div>
+                  <div class="formula-text" style="font-size:24px; margin-top:4px">&angle;B + &angle;D = 180&deg;</div>
+                  <small>Jumlah dua sudut yang saling berhadapan selalu sama dengan 180 derajat.</small>
+                </div>
+                <p>
+                  <strong>Teorema Ptolemy:</strong> Pada segi empat tali busur ABCD, hasil kali panjang kedua diagonal sama dengan jumlah hasil kali sisi-sisi yang berhadapan:<br>
+                  <span style="color:var(--accent-gold); font-family:serif; font-size:16px;">AC &times; BD = (AB &times; CD) + (BC &times; AD)</span>
+                </p>
+              </div>
+              <div class="theorem-visual">
+                <svg viewBox="0 0 300 280">
+                  <circle cx="150" cy="140" r="100" fill="none" stroke="#6857c7" stroke-width="2.5" />
+                  <!-- 4 Titik A, B, C, D -->
+                  <polygon points="100,53 220,74 235,198 80,195" fill="rgba(157, 122, 255, 0.25)" stroke="#5ef3ff" stroke-width="2.5"/>
+                  <circle cx="100" cy="53" r="5" fill="#ffd666"/>
+                  <circle cx="220" cy="74" r="5" fill="#ff7ebb"/>
+                  <circle cx="235" cy="198" r="5" fill="#ffd666"/>
+                  <circle cx="80" cy="195" r="5" fill="#ff7ebb"/>
+                  <!-- Diagonal -->
+                  <line x1="100" y1="53" x2="235" y2="198" stroke="rgba(255,255,255,0.4)" stroke-dasharray="4 4"/>
+                  <line x1="220" y1="74" x2="80" y2="195" stroke="rgba(255,255,255,0.4)" stroke-dasharray="4 4"/>
+                  <text x="88" y="45" fill="#ffd666" font-size="12" font-weight="bold">A</text>
+                  <text x="230" y="70" fill="#ff7ebb" font-size="12" font-weight="bold">B</text>
+                  <text x="245" y="210" fill="#ffd666" font-size="12" font-weight="bold">C</text>
+                  <text x="65" y="205" fill="#ff7ebb" font-size="12" font-weight="bold">D</text>
+                </svg>
+                <span class="caption">&angle;A + &angle;C = 180&deg; dan &angle;B + &angle;D = 180&deg;</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: GARIS SINGGUNG -->
+          <div class="tab-content" id="tab-singgung">
+            <div class="theorem-grid">
+              <div class="theorem-info">
+                <h4>Teorema Garis Singgung Lingkaran</h4>
+                <p>
+                  Garis singgung lingkaran adalah garis yang memotong lingkaran tepat di satu titik. Garis ini memiliki sifat-sifat geometri yang sangat penting:
+                </p>
+                <div class="theorem-formula-box">
+                  <div class="formula-title">Sifat Tegak Lurus</div>
+                  <div class="formula-text">Garis Singgung &perp; Jari-jari di Titik Singgung (90&deg;)</div>
+                </div>
+                <ul class="feature-list">
+                  <li><span class="check">1.</span> Garis singgung selalu membentuk sudut siku-siku (90&deg;) dengan jari-jari lingkaran.</li>
+                  <li><span class="check">2.</span> Dari sebuah titik di luar lingkaran, dapat ditarik dua garis singgung yang memiliki panjang sama panjang (<span style="color:var(--accent-gold)">PA = PB</span>).</li>
+                  <li><span class="check">3.</span> Garis Singgung Persekutuan Luar & Dalam dua lingkaran dapat dihitung menggunakan teorema Pythagoras.</li>
+                </ul>
+              </div>
+              <div class="theorem-visual">
+                <svg viewBox="0 0 300 280">
+                  <circle cx="120" cy="140" r="80" fill="none" stroke="#6857c7" stroke-width="2.5" />
+                  <!-- Titik P di luar -->
+                  <circle cx="270" cy="140" r="5" fill="#ffd666"/>
+                  <!-- Garis Singgung PA & PB -->
+                  <!-- Sudut titik singgung: cos(theta) = 80/150 = 0.533 -> theta ~ 57.7 deg -->
+                  <line x1="270" y1="140" x2="162" y2="72" stroke="#5ef3ff" stroke-width="2.5"/>
+                  <line x1="270" y1="140" x2="162" y2="208" stroke="#5ef3ff" stroke-width="2.5"/>
+                  <!-- Jari-jari ke titik singgung -->
+                  <line x1="120" y1="140" x2="162" y2="72" stroke="#ff7ebb" stroke-width="2"/>
+                  <line x1="120" y1="140" x2="162" y2="208" stroke="#ff7ebb" stroke-width="2"/>
+                  <!-- Siku-siku mark -->
+                  <circle cx="162" cy="72" r="4" fill="#5ef3ff"/>
+                  <circle cx="162" cy="208" r="4" fill="#5ef3ff"/>
+                  <circle cx="120" cy="140" r="4" fill="#fff"/>
+                  <!-- Labels -->
+                  <text x="105" y="145" fill="#fff" font-size="12" font-weight="bold">O</text>
+                  <text x="280" y="145" fill="#ffd666" font-size="12" font-weight="bold">P</text>
+                  <text x="162" y="60" fill="#5ef3ff" font-size="12" font-weight="bold">A</text>
+                  <text x="162" y="225" fill="#5ef3ff" font-size="12" font-weight="bold">B</text>
+                </svg>
+                <span class="caption">OA &perp; PA dan OB &perp; PB, panjang PA = PB</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORMULA QUICK REFERENCE TABLE -->
+          <div class="formula-table-wrap">
+            <table class="formula-table">
+              <thead>
+                <tr>
+                  <th>Konsep</th>
+                  <th>Formula / Rumus</th>
+                  <th>Keterangan Variabel</th>
+                  <th>Contoh Cepat</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Keliling Lingkaran</strong></td>
+                  <td class="math">K = 2&pi;r = &pi;d</td>
+                  <td>r = jari-jari, d = diameter</td>
+                  <td>r = 7 cm &rarr; K &approx; 44 cm</td>
+                </tr>
+                <tr>
+                  <td><strong>Luas Lingkaran</strong></td>
+                  <td class="math">L = &pi;r&sup2; = &frac14;&pi;d&sup2;</td>
+                  <td>&pi; &approx; 22/7 atau 3,14</td>
+                  <td>r = 7 cm &rarr; L &approx; 154 cm&sup2;</td>
+                </tr>
+                <tr>
+                  <td><strong>Panjang Busur</strong></td>
+                  <td class="math">s = (&alpha; / 360&deg;) &times; 2&pi;r</td>
+                  <td>&alpha; = sudut pusat dalam derajat</td>
+                  <td>&alpha; = 90&deg;, r = 7 cm &rarr; s = 11 cm</td>
+                </tr>
+                <tr>
+                  <td><strong>Luas Juring (Sektor)</strong></td>
+                  <td class="math">L_j = (&alpha; / 360&deg;) &times; &pi;r&sup2;</td>
+                  <td>&alpha; = sudut pusat dalam derajat</td>
+                  <td>&alpha; = 90&deg;, r = 14 cm &rarr; L_j = 154 cm&sup2;</td>
+                </tr>
+                <tr>
+                  <td><strong>Luas Tembereng</strong></td>
+                  <td class="math">L_t = L_juring - L_&Delta;AOB</td>
+                  <td>L_&Delta; = luas segitiga di dalam juring</td>
+                  <td>Juring 90&deg; minus Segitiga siku-siku</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: ALUR BELAJAR (ROADMAP) -->
+    <section class="section-wrap" id="alur">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Jalur Rekomendasi</span>
+          <h2 class="section-title">Urutan Belajar Efektif</h2>
+          <p class="section-desc">
+            Ikuti 3 tahapan pembelajaran terpadu ini agar konsep teorema dan luas juring dipahami secara tuntas.
+          </p>
+        </div>
+
+        <div class="roadmap-grid">
+          <!-- STEP 1 -->
+          <div class="roadmap-card">
+            <div class="roadmap-step">1</div>
+            <h4>Pahami Konsep di Bahan Ajar</h4>
+            <p>
+              Buka halaman <strong>bahan-ajar.html</strong> untuk mempelajari materi konsep, menggeser simulator sudut, dan membaca pembuktian rumus step-by-step.
+            </p>
+            <a href="bahan-ajar.html" class="roadmap-action">
+              Mulai Langkah 1 &rarr;
+            </a>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="roadmap-card">
+            <div class="roadmap-step">2</div>
+            <h4>Uji Kemampuan di Math Quest</h4>
+            <p>
+              Buka halaman <strong>JURING_ADVENTURE.html</strong> untuk menyelesaikan 20 soal tantangan, melatih kecepatan hitung, dan mendapatkan sertifikat digital.
+            </p>
+            <a href="JURING_ADVENTURE.html" class="roadmap-action">
+              Lanjut ke Langkah 2 &rarr;
+            </a>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="roadmap-card">
+            <div class="roadmap-step">3</div>
+            <h4>Petualangan di Ekspedisi 2D</h4>
+            <p>
+              Buka halaman <strong>JURING_ADVENTURE_EKSPEDISI.html</strong> untuk berinteraksi dengan karakter di canvas 2D, memecahkan teka-teki, dan mengalahkan Boss Kristal.
+            </p>
+            <a href="JURING_ADVENTURE_EKSPEDISI.html" class="roadmap-action">
+              Taklukkan Langkah 3 &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FLOATING REDIRECT BAR FOR MOBILE -->
+  <aside class="floating-bar" aria-label="Akses Cepat Modul">
+    <a href="bahan-ajar.html" class="floating-btn">
+      <span>📘</span> Bahan Ajar
+    </a>
+    <a href="JURING_ADVENTURE.html" class="floating-btn active">
+      <span>🎮</span> Quest
+    </a>
+    <a href="JURING_ADVENTURE_EKSPEDISI.html" class="floating-btn">
+      <span>🚀</span> RPG 2D
+    </a>
+  </aside>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <div class="brand-logo" style="width:36px; height:36px; font-size:18px">📐</div>
+            <span>PORTAL TEOREMA LINGKARAN</span>
+          </div>
+          <p>
+            Platform media pembelajaran matematika interaktif materi Teorema Lingkaran dan Luas Juring untuk Kelas XI SMA/MA Kurikulum Merdeka. Dapat berjalan 100% secara offline tanpa sambungan internet.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Akses Modul Langsung</h5>
+          <ul class="footer-links">
+            <li><a href="bahan-ajar.html">📘 Modul Bahan Ajar Interaktif</a></li>
+            <li><a href="JURING_ADVENTURE.html">🎮 Juring Adventure (Math Quest)</a></li>
+            <li><a href="JURING_ADVENTURE_EKSPEDISI.html">🚀 Juring Adventure (Ekspedisi RPG)</a></li>
+            <li><a href="index.html">🏠 Beranda Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Materi & Teorema</h5>
+          <ul class="footer-links">
+            <li><a href="#teorema">Unsur-Unsur Lingkaran</a></li>
+            <li><a href="#teorema">Sudut Pusat & Sudut Keliling</a></li>
+            <li><a href="#teorema">Panjang Busur & Luas Juring</a></li>
+            <li><a href="#teorema">Segi Empat Tali Busur</a></li>
+            <li><a href="#teorema">Teorema Garis Singgung</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; Pembelajaran Matematika Kelas XI SMA/MA &middot; Juring Adventure Series</div>
+        <div style="display: flex; gap: 12px">
+          <span class="pill">Kelas XI SMA</span>
+          <span class="pill">Geometri Lingkaran</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE SCRIPT -->
+  <script>
+    (function() {
+      'use strict';
+
+      // 1. TABS SYSTEM FOR THEOREMS
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabButtons.forEach(b => b.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+
+          btn.classList.add('active');
+          const target = btn.getAttribute('data-tab');
+          const content = document.getElementById(target);
+          if (content) {
+            content.classList.add('active');
+          }
+        });
+      });
+
+      // 2. HERO INTERACTIVE CIRCLE VISUALIZER
+      const angleSlider = document.getElementById('heroAngleSlider');
+      const radiusSlider = document.getElementById('heroRadiusSlider');
+      const angleVal = document.getElementById('heroAngleVal');
+      const radiusVal = document.getElementById('heroRadiusVal');
+      const arcLen = document.getElementById('heroArcLen');
+      const sectorArea = document.getElementById('heroSectorArea');
+
+      const heroSectorPath = document.getElementById('heroSectorPath');
+      const heroRadius2 = document.getElementById('heroRadius2');
+      const heroLabelB = document.getElementById('heroLabelB');
+      const heroAngleLabel = document.getElementById('heroAngleLabel');
+
+      const cx = 130;
+      const cy = 130;
+      const R = 100;
+
+      function updateHeroCircle() {
+        const angle = parseFloat(angleSlider.value);
+        const radiusCm = parseFloat(radiusSlider.value);
+
+        angleVal.textContent = angle + '°';
+        radiusVal.textContent = radiusCm + ' cm';
+
+        // Hitungan Matematis
+        const PI = Math.PI;
+        const busur = (angle / 360) * 2 * PI * radiusCm;
+        const luas = (angle / 360) * PI * radiusCm * radiusCm;
+
+        arcLen.textContent = busur.toFixed(1) + ' cm';
+        sectorArea.textContent = luas.toFixed(1) + ' cm²';
+
+        // Konversi koordinat SVG
+        // Sudut awal: 0 derajat berada di atas (jam 12 = sudut -90 deg dari sb-x)
+        const startAngleRad = -Math.PI / 2;
+        const endAngleRad = startAngleRad + (angle * Math.PI / 180);
+
+        const x1 = cx + R * Math.cos(startAngleRad);
+        const y1 = cy + R * Math.sin(startAngleRad);
+
+        const x2 = cx + R * Math.cos(endAngleRad);
+        const y2 = cy + R * Math.sin(endAngleRad);
+
+        const largeArc = angle > 180 ? 1 : 0;
+
+        if (angle >= 360) {
+          heroSectorPath.setAttribute('d', `M ${cx} ${cy - R} A ${R} ${R} 0 1 1 ${cx - 0.01} ${cy - R} Z`);
+        } else if (angle <= 0) {
+          heroSectorPath.setAttribute('d', `M ${cx} ${cy} Z`);
+        } else {
+          heroSectorPath.setAttribute('d', `M ${cx} ${cy} L ${x1} ${y1} A ${R} ${R} 0 ${largeArc} 1 ${x2} ${y2} Z`);
+        }
+
+        // Garis jari-jari kedua
+        heroRadius2.setAttribute('x2', x2);
+        heroRadius2.setAttribute('y2', y2);
+
+        // Posisi label B
+        const labelBx = cx + (R + 15) * Math.cos(endAngleRad);
+        const labelBy = cy + (R + 15) * Math.sin(endAngleRad);
+        heroLabelB.setAttribute('x', labelBx);
+        heroLabelB.setAttribute('y', labelBy);
+
+        // Posisi teks sudut
+        const midAngleRad = startAngleRad + (angle * Math.PI / 360);
+        const textDist = 42;
+        const textX = cx + textDist * Math.cos(midAngleRad);
+        const textY = cy + textDist * Math.sin(midAngleRad);
+        heroAngleLabel.setAttribute('x', textX);
+        heroAngleLabel.setAttribute('y', textY);
+        heroAngleLabel.textContent = angle + '°';
+      }
+
+      if (angleSlider && radiusSlider) {
+        angleSlider.addEventListener('input', updateHeroCircle);
+        radiusSlider.addEventListener('input', updateHeroCircle);
+        updateHeroCircle();
+      }
+    })();
+  </script>
+</body>
+</html>
+
